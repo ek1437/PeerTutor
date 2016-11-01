@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models');
 
-
 module.exports = {
   registerRouter() {
     const router = express.Router();
