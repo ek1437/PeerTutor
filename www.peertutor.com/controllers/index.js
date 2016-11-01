@@ -13,6 +13,7 @@ fs
     router.use(`/${fileName}`, require(`./${fileName}`).registerRouter());
   });
 
+
 router.get('/', (req, res) => {
   res.render('homepage');
 });

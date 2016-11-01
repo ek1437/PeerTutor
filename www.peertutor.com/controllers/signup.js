@@ -12,7 +12,8 @@ module.exports = {
   },
   index(req, res) {
     //res.render('sign-up');
-      res.send('error');
+      //res.send('error');
+      res.redirect('/');
   },
   submit(req, res) {
       var email = req.body.email;

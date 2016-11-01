@@ -13,7 +13,8 @@ module.exports = {
   },
   index(req, res) {
     //res.render('login', { error: req.flash('error') });
-    res.send('abc');
+    //res.send('abc');
+      res.redirect('/');
   },
   login(req, res) {
     passport.authenticate('local', {
