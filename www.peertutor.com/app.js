@@ -54,6 +54,14 @@ app.use(require('./controllers/'));
 ////Load the tutors controller
 //const tutors = require('./controllers/tutors');
 //app.use('/tutors', tutors);
+
+// catch 404 and forward to error handler
+app.use(function(req, res) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  res.render('errors/404');
+});
+
 models.sequelize.sync().then(() => {
   app.listen(8080);
 });
