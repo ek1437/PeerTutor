@@ -1,3 +1,6 @@
+////////////////////////////
+//Includes
+////////////////////////////
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const express = require('express');
@@ -8,52 +11,42 @@ const models = require('./models/');
 const passport = require('./middlewares/authentication');
 const viewHelpers = require('./middlewares/viewHelpers');
 
+////////////////////////////
+//Init app
+////////////////////////////
 const app = express();
 app.use(methodOverride('_method'));
+
+//BodyParser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//Express Session
 app.use(expressSession(({ secret: 'keyboard cat', resave: false, saveUninitialized: true })));
+
+//Connect Flash Middleware
 app.use(flash());
+
+//Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+//Set static Folder for CSS, images, jquery, etc...
 app.use(express.static('./public'));
 
+////////////////////////////
+//View Engine
+////////////////////////////
 app.engine('handlebars', exphbs({
   layoutsDir: './views/layouts',
   defaultLayout: 'main',
 }));
-
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/views/`);
-
 app.use(viewHelpers.register());
 
+//Routes
 app.use(require('./controllers/'));
-
-////Home Page
-//app.get('/', function(req, res){
-//  res.send('<center><h1>Welcome to PeerTutoring</h1></center> <br />'+
-//          '<ul>'+
-//            '<li><a href="http://192.168.33.10:8080">Home</a></li>'+
-//            '<li><a href="http://192.168.33.10:8080/login">Login</a></li>'+
-//            '<li><a href="http://192.168.33.10:8080/signup">Sign Up</a></li>'+
-//            '<li><a href="http://192.168.33.10:8080/tutors">Tutors</a></li>'+
-//          '</ul>');
-//});
-//
-////Login
-//app.get('/login', function(req, res){
-//   res.send("Login Page"); 
-//});
-//
-////SignUp
-//app.get('/signup', function(req, res){
-//   res.send("Signup Page"); 
-//});
-//
-////Load the tutors controller
-//const tutors = require('./controllers/tutors');
-//app.use('/tutors', tutors);
 
 // catch 404 and forward to error handler
 app.use(function(req, res) {
@@ -62,7 +55,12 @@ app.use(function(req, res) {
   res.render('errors/404');
 });
 
-models.sequelize.sync().then(() => {
-  app.listen(8080);
+////////////////////////////
+//Run the server
+////////////////////////////
+app.set('port', (process.env.PORT || 8080));                    //Set the port
+models.sequelize.sync().then(() => {                            
+  app.listen(app.get('port'), function(){                       //Start listening
+      console.log('Server started on port '+app.get('port'));   //Log the server started
+  });
 });
-//app.listen(8080);

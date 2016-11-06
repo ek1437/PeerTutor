@@ -9,12 +9,14 @@ function passwordsMatch(passwordSubmitted, storedPassword) {
 }
 
 passport.use(new LocalStrategy({
-  usernameField: 'email',
+    emailField: 'email',
 },
   (email, password, done) => {
+    console.log('test12345')
     User.findOne({
-      where: { email },
+      where:{ email },
     }).then((user) => {
+        console.log('tes');
       if (user) {
         if (passwordsMatch(password, user.password) === false) {
           return done(null, false, { message: 'Incorrect password.' });
@@ -28,24 +30,34 @@ passport.use(new LocalStrategy({
   })
 );
 
-passport.serializeUser((user, done) => {
-  done(null, user.username);
+//passport.serializeUser((user, done) => {
+//  done(null, user.id);
+//});
+//
+//passport.deserializeUser((email, done) => {
+//  User.findById(email).then((user) => {
+//    if (user == null) {
+//      return done(null, false);
+//    }
+//
+//    return done(null, user);
+//  });
+//});
+passport.serializeUser(function(user, done) {
+    console.log('seri');
+  done(null, user.id);
 });
 
-passport.deserializeUser((username, done) => {
-  User.findById(username).then((user) => {
-    if (user == null) {
-      return done(null, false);
-    }
-
-    return done(null, user);
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+      console.log('des');
+    done(err, user);
   });
 });
-
-passport.redirectIfLoggedIn = (route = '/dashboard') =>
-  (req, res, next) => (req.user ? res.redirect(route) : next());
-
-passport.redirectIfNotLoggedIn = (route = '/') =>
-  (req, res, next) => (req.user ? next() : res.redirect(route));
+//passport.redirectIfLoggedIn = (route = '/dashboard') =>
+//  (req, res, next) => (req.user ? res.redirect(route) : next());
+//
+//passport.redirectIfNotLoggedIn = (route = '/') =>
+//  (req, res, next) => (req.user ? next() : res.redirect(route));
 
 module.exports = passport;

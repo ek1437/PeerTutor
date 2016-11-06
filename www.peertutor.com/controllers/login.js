@@ -12,14 +12,14 @@ module.exports = {
     return router;
   },
   index(req, res) {
-    //res.render('login', { error: req.flash('error') });
-    //res.send('abc');
-      res.redirect('/');
+      console.log('Dashboard entered');
+      res.redirect('/dashboard');
   },
   login(req, res) {
+      console.log('login entered');
     passport.authenticate('local', {
       successRedirect: '/dashboard',
-      failureRedirect: '/',
+      failureRedirect: '/test5',
       failureFlash: true,
       successFlash: true,
     })(req, res);

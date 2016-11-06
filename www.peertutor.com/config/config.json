@@ -1,10 +1,10 @@
 {
   "development": {
     "username": "pt_dev",
-    "password": 123456,
+    "password": "123456",
     "database": "pt_development",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",
