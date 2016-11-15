@@ -49,11 +49,18 @@ app.use(viewHelpers.register());
 app.use(require('./controllers/'));
 
 // catch 404 and forward to error handler
-app.use(function(req, res) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  res.render('errors/404');
+app.use(function(req, res){
+    var err = new Error('Not Found');       //?????
+    err.status = 404;                       //?????
+    res.render('errors/404');
 });
+
+//Contact Us Page
+//app.use(function(req, res){
+//    var err = new Error('Not Found');       //?????
+//    err.status = 404;                       //?????
+//    res.render('errors/404');
+//});
 
 ////////////////////////////
 //Run the server
